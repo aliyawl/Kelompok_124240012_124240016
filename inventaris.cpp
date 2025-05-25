@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+
 using namespace std;
 
 struct Barang {
     string kode;
     string nama;
-    int jumlah;
+    int stok;
 };
 
 struct Node {
@@ -18,11 +19,11 @@ struct Node {
 Node* head = nullptr;
 Node* tail = nullptr;
 
-void tambahBarang(string kode, string nama, int jumlah) {
+void tambahBarang(string kode, string nama, int stok) {
     Node* newNode = new Node;
     newNode->data.kode = kode;
     newNode->data.nama = nama;
-    newNode->data.jumlah = jumlah;
+    newNode->data.stok = stok;
     newNode->next = nullptr;
     newNode->prev = tail;
 
@@ -41,7 +42,7 @@ void tampilBarang() {
     while (temp != nullptr) {
         cout << "Kode: " << temp->data.kode
              << ", Nama: " << temp->data.nama
-             << ", Jumlah: " << temp->data.jumlah << endl;
+             << ", Jumlah: " << temp->data.stok << endl;
         temp = temp->next;
     }
 }
@@ -53,7 +54,7 @@ void cariBarang(string nama) {
             cout << "Barang ditemukan: "
                  << "Kode: " << temp->data.kode
                  << ", Nama: " << temp->data.nama
-                 << ", Jumlah: " << temp->data.jumlah << endl;
+                 << ", Jumlah: " << temp->data.stok << endl;
             return;
         }
         temp = temp->next;
@@ -102,12 +103,12 @@ void hapusBarang(string kode) {
     tampilBarang();
 }
 
-void updateBarang(string kode, int jumlah) {
+void updateBarang(string kode, int stok) {
     Node* temp = head;
     while (temp != nullptr) {
         if (temp->data.kode == kode) {
-            temp->data.jumlah = jumlah;
-            cout << "Jumlah barang dengan kode " << kode << " telah diperbarui menjadi " << jumlah << "." << endl;
+            temp->data.stok = stok;
+            cout << "Jumlah barang dengan kode " << kode << " telah diperbarui menjadi " << stok << "." << endl;
             return;
         }
         temp = temp->next;
@@ -123,7 +124,7 @@ void simpankeFile() {
         while (temp != nullptr) {
             file << temp->data.kode << "," 
                  << temp->data.nama << "," 
-                 << temp->data.jumlah << endl;
+                 << temp->data.stok << endl;
             temp = temp->next;
         }
         file.close();
@@ -153,4 +154,20 @@ void bacadariFile() {
 int main () {
     bacadariFile();
     int pilihan;
+
+    do {
+        cout << "\n=== Menu Inventaris Barang ===" << endl;
+        cout << "1. Tambah Barang" << endl;
+        cout << "2. Tampilkan Barang" << endl;
+        cout << "3. Cari Barang" << endl;
+        cout << "4. Urutkan Barang" << endl;
+        cout << "5. Hapus Barang" << endl;
+        cout << "6. Update Jumlah Barang" << endl;
+        cout << "7. Keluar" << endl;
+        cout << "Pilih opsi: ";
+        cin >> pilihan;
+        cin.ignore();
+
+
+    }
 }
