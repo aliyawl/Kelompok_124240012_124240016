@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <iomanip>
 
 using namespace std;
 
@@ -33,19 +34,35 @@ void tambahBarang(string kode, string nama, int stok) {
         head = newNode;
     }
     tail = newNode;
-    simpankeFile();
 }
 
 void tampilBarang() {
     Node* temp = head;
-    cout << "Daftar Barang:" << endl;
+    if (temp == nullptr) {
+        cout << "Belum ada data barang.\n";
+        return;
+    }
+
+    cout << "\n=== DAFTAR SEMUA BARANG ===\n";
+    cout << left 
+         << setw(5)  << "No" 
+         << setw(15) << "Kode" 
+         << setw(25) << "Nama" 
+         << setw(10) << "Stok" << endl;
+    cout << string(55, '-') << endl;
+
+    int no = 1;
     while (temp != nullptr) {
-        cout << "Kode: " << temp->data.kode
-             << ", Nama: " << temp->data.nama
-             << ", Jumlah: " << temp->data.stok << endl;
+        cout << left 
+             << setw(5)  << no 
+             << setw(15) << temp->data.kode 
+             << setw(25) << temp->data.nama 
+             << setw(10) << temp->data.stok << endl;
         temp = temp->next;
+        no++;
     }
 }
+
 
 void cariBarang(string nama) {
     Node* temp = head;
@@ -54,12 +71,12 @@ void cariBarang(string nama) {
             cout << "Barang ditemukan: "
                  << "Kode: " << temp->data.kode
                  << ", Nama: " << temp->data.nama
-                 << ", Jumlah: " << temp->data.stok << endl;
+                 << ", Stok: " << temp->data.stok << endl;
             return;
         }
         temp = temp->next;
     }
-    cout << "Barang dengan " << nama << " tidak ditemukan." << endl;
+    cout << "Barang dengan nama \"" << nama << "\" tidak ditemukan." << endl;
 }
 
 void urutkanBarang() {
@@ -69,7 +86,7 @@ void urutkanBarang() {
         swapped = false;
         Node* temp = head;
         while (temp->next != nullptr) {
-            if (temp->data.kode > temp->next->data.kode) {
+            if (temp->data.stok > temp->next->data.stok) {
                 swap(temp->data, temp->next->data);
                 swapped = true;
             }
@@ -99,8 +116,6 @@ void hapusBarang(string kode) {
         temp = temp->next;
     }
     cout << "Barang dengan kode " << kode << " tidak ditemukan." << endl;
-    simpankeFile();
-    tampilBarang();
 }
 
 void updateBarang(string kode, int stok) {
@@ -114,7 +129,6 @@ void updateBarang(string kode, int stok) {
         temp = temp->next;
     }
     cout << "Barang dengan kode " << kode << " tidak ditemukan." << endl;
-    simpankeFile();
 }
 
 void simpankeFile() {
@@ -162,7 +176,7 @@ int main () {
         cout << "3. Cari Barang" << endl;
         cout << "4. Urutkan Barang Berdasarkan Stok" << endl;
         cout << "5. Hapus Barang" << endl;
-        cout << "6. Update Jumlah Barang" << endl;
+        cout << "6. Update Jumlah Stok Barang" << endl;
         cout << "7. Keluar" << endl;
         cout << "Pilih menu: ";
         cin >> pilihan;
@@ -172,16 +186,26 @@ int main () {
         int stok;
 
         switch(pilihan) {
-            case 1:
-                cout << "Masukkan kode barang: ";
-                getline(cin, kode);
-                cout << "Masukkan nama barang: ";
-                getline(cin, nama);
-                cout << "Masukkan jumlah stok: ";
-                cin >> stok;
+            case 1: {
+                int jumlahBarang;
+                cout << "Berapa banyak barang yang ingin ditambahkan?: ";
+                cin >> jumlahBarang;
                 cin.ignore();
-                tambahBarang(kode, nama, stok);
+
+                for (int i = 0; i < jumlahBarang; i++) {
+                    cout << "\nBarang ke-" << (i + 1) << endl;
+                    cout << "Masukkan kode barang: ";
+                    getline(cin, kode);
+                    cout << "Masukkan nama barang: ";
+                    getline(cin, nama);
+                    cout << "Masukkan jumlah stok: ";
+                    cin >> stok;
+                    cin.ignore();
+                    tambahBarang(kode, nama, stok);
+                }
+                simpankeFile();
                 break;
+            }
             case 2:
                 tampilBarang();
                 break;
@@ -198,6 +222,7 @@ int main () {
                 cout << "Masukkan kode barang yang ingin dihapus: ";
                 getline(cin, kode);
                 hapusBarang(kode);
+                simpankeFile();
                 break;
             case 6:
                 cout << "Masukkan kode barang yang ingin diupdate: ";
@@ -206,6 +231,7 @@ int main () {
                 cin >> stok;
                 cin.ignore();
                 updateBarang(kode, stok);
+                simpankeFile();
                 break;
             case 7:
                 cout << "Keluar dari program." << endl;
