@@ -156,18 +156,65 @@ int main () {
     int pilihan;
 
     do {
-        cout << "\n=== Menu Inventaris Barang ===" << endl;
+        cout << "\n=== MENU INVENTARIS BARANG GUDANG ===" << endl;
         cout << "1. Tambah Barang" << endl;
-        cout << "2. Tampilkan Barang" << endl;
+        cout << "2. Tampilkan Semua Barang" << endl;
         cout << "3. Cari Barang" << endl;
-        cout << "4. Urutkan Barang" << endl;
+        cout << "4. Urutkan Barang Berdasarkan Stok" << endl;
         cout << "5. Hapus Barang" << endl;
         cout << "6. Update Jumlah Barang" << endl;
         cout << "7. Keluar" << endl;
-        cout << "Pilih opsi: ";
+        cout << "Pilih menu: ";
         cin >> pilihan;
         cin.ignore();
 
+        string kode, nama;
+        int stok;
 
-    }
+        switch(pilihan) {
+            case 1:
+                cout << "Masukkan kode barang: ";
+                getline(cin, kode);
+                cout << "Masukkan nama barang: ";
+                getline(cin, nama);
+                cout << "Masukkan jumlah stok: ";
+                cin >> stok;
+                cin.ignore();
+                tambahBarang(kode, nama, stok);
+                break;
+            case 2:
+                tampilBarang();
+                break;
+            case 3:
+                cout << "Masukkan nama barang yang dicari: ";
+                getline(cin, nama);
+                cariBarang(nama);
+                break;
+            case 4:
+                urutkanBarang();
+                tampilBarang();
+                break;
+            case 5:
+                cout << "Masukkan kode barang yang ingin dihapus: ";
+                getline(cin, kode);
+                hapusBarang(kode);
+                break;
+            case 6:
+                cout << "Masukkan kode barang yang ingin diupdate: ";
+                getline(cin, kode);
+                cout << "Masukkan jumlah stok baru: ";
+                cin >> stok;
+                cin.ignore();
+                updateBarang(kode, stok);
+                break;
+            case 7:
+                cout << "Keluar dari program." << endl;
+                break;
+            default:
+                cout << "Pilihan tidak valid. Silakan coba lagi." << endl;
+        }
+
+    } while (pilihan != 7);
+
+    return 0;
 }
