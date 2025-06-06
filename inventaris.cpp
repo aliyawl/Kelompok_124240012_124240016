@@ -64,10 +64,10 @@ void tampilBarang() {
 }
 
 
-void cariBarang(string nama) {
+void cariBarang(string kode) {
     Node* temp = head;
     while (temp != nullptr) {
-        if (temp->data.nama == nama) {
+        if (temp->data.kode == kode) {
             cout << "Barang ditemukan: "
                  << "Kode: " << temp->data.kode
                  << ", Nama: " << temp->data.nama
@@ -76,7 +76,7 @@ void cariBarang(string nama) {
         }
         temp = temp->next;
     }
-    cout << "Barang dengan nama \"" << nama << "\" tidak ditemukan." << endl;
+    cout << "Barang dengan kode \"" << kode << "\" tidak ditemukan." << endl;
 }
 
 void urutkanBarang() {
@@ -165,6 +165,17 @@ void bacadariFile() {
     }
 }
 
+void hapusSemuaBarang() {
+    Node* temp = head;
+    while (temp != nullptr) {
+        Node* next = temp->next;
+        delete temp;
+        temp = next;
+    }
+    head = nullptr;
+    tail = nullptr;
+}
+
 int main () {
     bacadariFile();
     int pilihan;
@@ -207,12 +218,14 @@ int main () {
                 break;
             }
             case 2:
+                hapusSemuaBarang();    
+                bacadariFile();          
                 tampilBarang();
                 break;
             case 3:
-                cout << "Masukkan nama barang yang dicari: ";
-                getline(cin, nama);
-                cariBarang(nama);
+                cout << "Masukkan kode barang yang dicari: ";
+                getline(cin, kode);
+                cariBarang(kode);
                 break;
             case 4:
                 urutkanBarang();
