@@ -96,6 +96,10 @@ void urutkanBarang() {
 }
 
 void hapusBarang(string kode) {
+    if (head == nullptr) {
+        cout << "Belum ada data barang.\n";
+        return;
+    }
     Node* temp = head;
     while (temp != nullptr) {
         if (temp->data.kode == kode) {
