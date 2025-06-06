@@ -245,6 +245,7 @@ int main () {
                 cin.ignore();
                 updateBarang(kode, stok);
                 simpankeFile();
+                tampilBarang();
                 break;
             case 7:
                 cout << "Keluar dari program." << endl;
