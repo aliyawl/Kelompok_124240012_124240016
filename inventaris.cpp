@@ -236,6 +236,10 @@ int main () {
                 tampilBarang();
                 break;
             case 5:
+                if (head == nullptr) {
+                    cout << "Belum ada data barang.\n";
+                    break;
+                }
                 cout << "Masukkan kode barang yang ingin dihapus: ";
                 getline(cin, kode);
                 hapusBarang(kode);
